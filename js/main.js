@@ -19,9 +19,6 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
-// массив объектов недвижимости
-var adverts = [];
-
 // определяет ширину блока
 var maxWidth = document.querySelector('.map').clientWidth;
 
@@ -55,9 +52,10 @@ var getRandomLengthArray = function (array) {
 
 // функция создает массив объектов объявлений
 var getRandomAdvert = function () {
+  var adverts = [];
   for (var i = 0; i < AMOUNT_ADVERT; i++) {
     var coordinate = {
-      x: getRandomInteger(0, maxWidth, true),
+      x: getRandomInteger(0, maxWidth),
       y: getRandomInteger(MIN_HEIGHT, MAX_HEIGHT),
     };
 
@@ -97,13 +95,13 @@ var createPinElement = function (pin) {
 };
 
 // функция отрисовывает сгенерированные DOM-элементы
-var renderPin = function () {
+var renderPin = function (pins) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < AMOUNT_ADVERT; i++) {
-    fragment.appendChild(createPinElement(adverts[i]));
+    fragment.appendChild(createPinElement(pins[i]));
   }
   pinsList.appendChild(fragment);
 };
 
-getRandomAdvert();
-renderPin();
+var adverts = getRandomAdvert();
+renderPin(adverts);
