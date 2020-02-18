@@ -101,13 +101,6 @@ var createPinElement = function (pin) {
   return pinElement;
 };
 
-// функция удаляет все дочерние элементы
-var removeChildElements = function (element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-};
-
 // функция создает новое удобство
 var makeFeatureElement = function (modifier) {
   var newFeatureElement = document.createElement('li');
@@ -129,24 +122,31 @@ var makePhotoElement = function (path) {
 // 2. функция создает карточки объявлений
 var createCardElement = function (card) {
   var cardElement = mapCardTemplate.cloneNode(true);
-  var photoParent = cardElement.querySelector('.popup__photos');
   var featureParent = cardElement.querySelector('.popup__features');
+  var featureItems = featureParent.querySelectorAll('.popup__feature');
+  var photoParent = cardElement.querySelector('.popup__photos');
+  var photoItem = photoParent.querySelector('.popup__photo');
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = card.price + '₽/ночь';
   cardElement.querySelector('.popup__type').textContent = offerTypes[card.type];
   cardElement.querySelector('.popup__text--capacity').textContent = card.rooms + ' комнаты для ' + card.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.checkin + ', выезд до ' + card.checkout;
-  removeChildElements(featureParent);
+  cardElement.querySelector('.popup__description').textContent = card.description;
+  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+
+  for (var i = 0; i < featureItems.length; i++) {
+    featureItems[i].style.display = 'none';
+  }
   card.features.forEach(function (item) {
     featureParent.appendChild(makeFeatureElement(item));
   });
-  cardElement.querySelector('.popup__description').textContent = card.description;
-  removeChildElements(photoParent);
+
+  photoItem.style.display = 'none';
   card.photos.forEach(function (item) {
     photoParent.appendChild(makePhotoElement(item));
   });
-  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+
   return cardElement;
 };
 
