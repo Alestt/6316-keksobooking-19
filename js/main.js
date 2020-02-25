@@ -186,13 +186,13 @@ var setAttributeCollection = function (collection, active) {
 // определяем координаты главной метки
 var getPinMainCoordinates = function (active) {
   var pinMainCoordinates = {
-    x: mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2,
-    y: mapPinMain.offsetTop + MAIN_PIN_SIZE / 2
+    x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
+    y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE / 2)
   };
   if (active === true) {
     pinMainCoordinates = {
-      x: mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2,
-      y: mapPinMain.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_SIZE_TAIL
+      x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
+      y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_SIZE_TAIL)
     };
   }
   return pinMainCoordinates;
@@ -204,7 +204,7 @@ var setAddressInput = function (coordinates) {
 };
 
 // синхронизирует поле «Количество комнат» с полем «Количество мест»
-var getAmountQuests = function () {
+var getAmountGuests = function () {
   setAttributeCollection(capacityOptions, true);
   var selectedOptions = ROOMS_CAPACITY[roomNumber.value];
   for (var i = 0; i < selectedOptions.length; i++) {
@@ -216,7 +216,7 @@ var getAmountQuests = function () {
 
 // функция-обработчик, вызывающая функцию синхронизации поля «Количество комнат» с полем «Количество мест»
 var onInputRoomChange = function () {
-  getAmountQuests();
+  getAmountGuests();
 };
 
 // функция-обработчик, вызывающая функцию перевода страницы в активное состояние
@@ -248,7 +248,7 @@ var startActivePage = function () {
   // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
   setAddressInput(getPinMainCoordinates(true));
   // при активации страницы синхронизирует поле «Количество комнат» с полем «Количество мест»
-  getAmountQuests();
+  getAmountGuests();
   // при изменении поля «Количество комнат» синхронизирует с полем «Количество мест»
   roomNumber.addEventListener('change', onInputRoomChange);
 };
