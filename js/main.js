@@ -18,29 +18,43 @@ var DESCRIPTIONS = ['Comfortable, bright and super-centrally located.', 'A relax
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-var offerTypes = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
-var offerPhotos = {class: 'popup__photo', width: 45, height: 40, alt: 'Фотография жилья'};
+var MAIN_PIN_SIZE = 65;
+var MAIN_PIN_SIZE_TAIL = 22;
+var ENTER_KEY = 'Enter';
+var LEFT_BUTTON = 0;
+var ROOMS_CAPACITY = {1: [1], 2: [1, 2], 3: [1, 2, 3], 100: [0]};
+// var offerTypes = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
+// var offerPhotos = {class: 'popup__photo', width: 45, height: 40, alt: 'Фотография жилья'};
 
 // определяет ширину блока
 var maxWidth = document.querySelector('.map').clientWidth;
 
 // главная часть страницы документа
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 // шаблон
 var templatePin = document.querySelector('#pin');
-var templateCard = document.querySelector('#card');
+// var templateCard = document.querySelector('#card');
 
 // часть шаблона
 var mapPinTemplate = templatePin.content.querySelector('.map__pin');
-var mapCardTemplate = templateCard.content.querySelector('.map__card');
+// var mapCardTemplate = templateCard.content.querySelector('.map__card');
 
 // оъект DOM, содержащий список маркеров
 var pinsList = document.querySelector('.map__pins');
 
 // блок перед которым надо вставить карточку объявления
-var filtersContainer = map.querySelector('.map__filters-container');
+// var filtersContainer = map.querySelector('.map__filters-container');
+
+var adForm = document.querySelector('.ad-form');
+var adFieldsets = adForm.querySelectorAll('fieldset');
+var mapFilter = document.querySelector('.map__filters');
+var mapFilters = mapFilter.children;
+var mapPinMain = pinsList.querySelector('.map__pin--main');
+var addressInput = adForm.querySelector('#address');
+var roomNumber = adForm.querySelector('#room_number');
+var capacity = adForm.querySelector('#capacity');
+var capacityOptions = capacity.querySelectorAll('option');
 
 // функция возвращает случайное целое число от min(вкл) до max(вкл)
 var getRandomInteger = function (min, max) {
@@ -101,54 +115,54 @@ var createPinElement = function (pin) {
   return pinElement;
 };
 
-// функция удаляет все дочерние элементы
-var removeChildElements = function (element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-};
-
-// функция создает новое удобство
-var makeFeatureElement = function (modifier) {
-  var newFeatureElement = document.createElement('li');
-  newFeatureElement.classList.add('popup__feature', 'popup__feature--' + modifier);
-  return newFeatureElement;
-};
-
-// функция создает новое фото
-var makePhotoElement = function (path) {
-  var newPhotoElement = document.createElement('img');
-  newPhotoElement.src = path;
-  newPhotoElement.classList.add(offerPhotos.class);
-  newPhotoElement.style.width = offerPhotos.width + 'px';
-  newPhotoElement.style.height = offerPhotos.height + 'px';
-  newPhotoElement.alt = offerPhotos.alt;
-  return newPhotoElement;
-};
-
-// 2. функция создает карточки объявлений
-var createCardElement = function (card) {
-  var cardElement = mapCardTemplate.cloneNode(true);
-  var photoParent = cardElement.querySelector('.popup__photos');
-  var featureParent = cardElement.querySelector('.popup__features');
-  cardElement.querySelector('.popup__title').textContent = card.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = card.price + '₽/ночь';
-  cardElement.querySelector('.popup__type').textContent = offerTypes[card.type];
-  cardElement.querySelector('.popup__text--capacity').textContent = card.rooms + ' комнаты для ' + card.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.checkin + ', выезд до ' + card.checkout;
-  removeChildElements(featureParent);
-  card.features.forEach(function (item) {
-    featureParent.appendChild(makeFeatureElement(item));
-  });
-  cardElement.querySelector('.popup__description').textContent = card.description;
-  removeChildElements(photoParent);
-  card.photos.forEach(function (item) {
-    photoParent.appendChild(makePhotoElement(item));
-  });
-  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
-  return cardElement;
-};
+// // функция создает новое удобство
+// var makeFeatureElement = function (modifier) {
+//   var newFeatureElement = document.createElement('li');
+//   newFeatureElement.classList.add('popup__feature', 'popup__feature--' + modifier);
+//   return newFeatureElement;
+// };
+//
+// // функция создает новое фото
+// var makePhotoElement = function (path) {
+//   var newPhotoElement = document.createElement('img');
+//   newPhotoElement.src = path;
+//   newPhotoElement.classList.add(offerPhotos.class);
+//   newPhotoElement.style.width = offerPhotos.width + 'px';
+//   newPhotoElement.style.height = offerPhotos.height + 'px';
+//   newPhotoElement.alt = offerPhotos.alt;
+//   return newPhotoElement;
+// };
+//
+// // 2. функция создает карточки объявлений
+// var createCardElement = function (card) {
+//   var cardElement = mapCardTemplate.cloneNode(true);
+//   var featureParent = cardElement.querySelector('.popup__features');
+//   var featureItems = featureParent.querySelectorAll('.popup__feature');
+//   var photoParent = cardElement.querySelector('.popup__photos');
+//   var photoItem = photoParent.querySelector('.popup__photo');
+//   cardElement.querySelector('.popup__title').textContent = card.offer.title;
+//   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
+//   cardElement.querySelector('.popup__text--price').textContent = card.price + '₽/ночь';
+//   cardElement.querySelector('.popup__type').textContent = offerTypes[card.type];
+//   cardElement.querySelector('.popup__text--capacity').textContent = card.rooms + ' комнаты для ' + card.guests + ' гостей';
+//   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.checkin + ', выезд до ' + card.checkout;
+//   cardElement.querySelector('.popup__description').textContent = card.description;
+//   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+//
+//   for (var i = 0; i < featureItems.length; i++) {
+//     featureItems[i].style.display = 'none';
+//   }
+//   card.features.forEach(function (item) {
+//     featureParent.appendChild(makeFeatureElement(item));
+//   });
+//
+//   photoItem.style.display = 'none';
+//   card.photos.forEach(function (item) {
+//     photoParent.appendChild(makePhotoElement(item));
+//   });
+//
+//   return cardElement;
+// };
 
 // функция отрисовывает сгенерированные метки и карточку объявления на карте
 var renderElement = function (array) {
@@ -157,8 +171,98 @@ var renderElement = function (array) {
     fragment.appendChild(createPinElement(array[i]));
   }
   pinsList.appendChild(fragment);
-  map.insertBefore(createCardElement(array[0]), filtersContainer);
+  // map.insertBefore(createCardElement(array[0]), filtersContainer);
 };
 
 var adverts = getRandomAdvert();
-renderElement(adverts);
+
+// управляет атрибутом disabled элементов коллекции
+var setAttributeCollection = function (collection, active) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].disabled = active;
+  }
+};
+
+// определяем координаты главной метки
+var getPinMainCoordinates = function (active) {
+  var pinMainCoordinates = {
+    x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
+    y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE / 2)
+  };
+  if (active === true) {
+    pinMainCoordinates = {
+      x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
+      y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_SIZE_TAIL)
+    };
+  }
+  return pinMainCoordinates;
+};
+
+// записывает координаты главной метки в поле ввода адреса
+var setAddressInput = function (coordinates) {
+  addressInput.value = coordinates.x + ', ' + coordinates.y;
+};
+
+// синхронизирует поле «Количество комнат» с полем «Количество мест»
+var getAmountGuests = function () {
+  setAttributeCollection(capacityOptions, true);
+  var selectedOptions = ROOMS_CAPACITY[roomNumber.value];
+  for (var i = 0; i < selectedOptions.length; i++) {
+    var option = capacity.querySelector('option[value="' + selectedOptions[i] + '"]');
+    option.removeAttribute('disabled');
+    option.setAttribute('selected', 'selected');
+  }
+};
+
+// функция-обработчик, вызывающая функцию синхронизации поля «Количество комнат» с полем «Количество мест»
+var onInputRoomChange = function () {
+  getAmountGuests();
+};
+
+// функция-обработчик, вызывающая функцию перевода страницы в активное состояние
+var onPinMainMousedown = function (evt) {
+  if (evt.button === LEFT_BUTTON) {
+    startActivePage();
+  }
+};
+
+var onPinMainKeydown = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    startActivePage();
+  }
+};
+
+// функция переводит страницу в активное состояние
+var startActivePage = function () {
+  // удаляет у карты и формы класс неактивного состояния
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  // убирает у элементов форм атрибутом disabled
+  setAttributeCollection(adFieldsets, false);
+  setAttributeCollection(mapFilters, false);
+  // удаляет обработчик события mousedown/keydown
+  mapPinMain.removeEventListener('mousedown', onPinMainMousedown);
+  mapPinMain.removeEventListener('keydown', onPinMainKeydown);
+  // отрисовывает метки на карте
+  renderElement(adverts);
+  // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
+  setAddressInput(getPinMainCoordinates(true));
+  // при активации страницы синхронизирует поле «Количество комнат» с полем «Количество мест»
+  getAmountGuests();
+  // при изменении поля «Количество комнат» синхронизирует с полем «Количество мест»
+  roomNumber.addEventListener('change', onInputRoomChange);
+};
+
+// функция задаёт начальное состояние страницы
+var beginPage = function () {
+  // добавляет элементам форм атрибут disabled
+  setAttributeCollection(adFieldsets, true);
+  setAttributeCollection(mapFilters, true);
+  // добавляет обработчик события mousedown/keydown
+  mapPinMain.addEventListener('mousedown', onPinMainMousedown);
+  mapPinMain.addEventListener('keydown', onPinMainKeydown);
+  // записывает координаты главной метки в поле ввода адреса в неактивном состоянии страницы
+  setAddressInput(getPinMainCoordinates(false));
+};
+
+beginPage();
