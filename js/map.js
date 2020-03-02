@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  var MAIN_PIN_SIZE = 65;
-  var MAIN_PIN_SIZE_TAIL = 22;
-
   var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var pinsList = document.querySelector('.map__pins');
@@ -15,21 +12,6 @@
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
   var adFieldsets = adForm.querySelectorAll('fieldset');
-
-  // определяем координаты главной метки
-  var getPinMainCoordinates = function (active) {
-    var pinMainCoordinates = {
-      x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
-      y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE / 2)
-    };
-    if (active === true) {
-      pinMainCoordinates = {
-        x: Math.round(mapPinMain.offsetLeft + MAIN_PIN_SIZE / 2),
-        y: Math.round(mapPinMain.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_SIZE_TAIL)
-      };
-    }
-    return pinMainCoordinates;
-  };
 
   // функция-обработчик, вызывающая функцию перевода страницы в активное состояние
   var onPinMainMousedown = function (evt) {
@@ -60,7 +42,7 @@
     // отрисовывает шаблон карточки объявления
     window.card.renderCard();
     // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
-    window.form.setAddressInput(getPinMainCoordinates(true));
+    window.form.setAddressInput(window.dndPin.getPinMainCoordinates(true));
     // при активации страницы синхронизирует поле «Количество комнат» с полем «Количество мест»
     window.form.getAmountGuests();
     // при активации страницы синхронизирует поле «Тип жилья» с полем «Цена за ночь, руб.»
@@ -150,7 +132,7 @@
     mapPinMain.addEventListener('mousedown', onPinMainMousedown);
     mapPinMain.addEventListener('keydown', onPinMainKeydown);
     // записывает координаты главной метки в поле ввода адреса в неактивном состоянии страницы
-    window.form.setAddressInput(getPinMainCoordinates(false));
+    window.form.setAddressInput(window.dndPin.getPinMainCoordinates(false));
   };
 
   beginPage();
