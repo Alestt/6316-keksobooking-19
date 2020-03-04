@@ -117,7 +117,7 @@
     };
 
     // добавляет обработчики событий меткам, пропуская главную метку
-    for (var j = 0; j < window.data.amountAdvert; j++) {
+    for (var j = 0; j < window.data.adverts.length; j++) {
       pins[j + 1].addEventListener('click', onPinsClick(j));
       pins[j + 1].addEventListener('click', onPinsEnter(j));
     }
