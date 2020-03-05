@@ -6,11 +6,9 @@
 
   var map = document.querySelector('.map');
   var templateCard = document.querySelector('#card');
-  // var pinsList = document.querySelector('.map__pins');
   var mapCardTemplate = templateCard.content.querySelector('.map__card');
   // блок перед которым надо вставить карточку объявления
   var filtersContainer = map.querySelector('.map__filters-container');
-  // var pin = pinsList.querySelector('.map__pin');
 
   // функция создает новое удобство
   var makeFeatureElement = function (modifier) {
@@ -39,24 +37,24 @@
     var photoItems = photoParent.querySelectorAll('.popup__photo');
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-    cardElement.querySelector('.popup__text--price').textContent = card.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = offerTypes[card.type];
-    cardElement.querySelector('.popup__text--capacity').textContent = card.rooms + ' комнаты для ' + card.guests + ' гостей';
-    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.checkin + ', выезд до ' + card.checkout;
-    cardElement.querySelector('.popup__description').textContent = card.description;
+    cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+    cardElement.querySelector('.popup__type').textContent = offerTypes[card.offer.type];
+    cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+    cardElement.querySelector('.popup__description').textContent = card.offer.description;
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
     for (var i = 0; i < featureItems.length; i++) {
       featureItems[i].style.display = 'none';
     }
-    card.features.forEach(function (item) {
+    card.offer.features.forEach(function (item) {
       featureParent.appendChild(makeFeatureElement(item));
     });
 
     for (var j = 0; j < photoItems.length; j++) {
       photoItems[j].style.display = 'none';
     }
-    card.photos.forEach(function (item) {
+    card.offer.photos.forEach(function (item) {
       photoParent.appendChild(makePhotoElement(item));
     });
 
