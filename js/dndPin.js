@@ -17,6 +17,18 @@
   var pinsList = document.querySelector('.map__pins');
   var mapPinMain = pinsList.querySelector('.map__pin--main');
 
+  // записывает изначальные координаты главной метки
+  var startCoordinates = {
+    x: mapPinMain.offsetLeft,
+    y: mapPinMain.offsetTop,
+  };
+
+  // возвращает главную метку в исходное положение
+  var returnStartPositionPinMain = function () {
+    mapPinMain.style.top = startCoordinates.y + 'px';
+    mapPinMain.style.left = startCoordinates.x + 'px';
+  };
+
   // определяет координаты главной метки
   var getPinMainCoordinates = function (active) {
     var pinMainCoordinates = {
@@ -105,6 +117,7 @@
   });
 
   window.dndPin = {
-    getPinMainCoordinates: getPinMainCoordinates
+    getPinMainCoordinates: getPinMainCoordinates,
+    returnStartPosition: returnStartPositionPinMain
   };
 })();

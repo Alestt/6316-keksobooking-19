@@ -70,8 +70,17 @@
     map.insertBefore(fragment, filtersContainer);
   };
 
+  // удаляет карточки похожих объявлений
+  var deleteCards = function () {
+    var cards = map.querySelectorAll('.map__card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].remove();
+    }
+  };
+
   window.card = {
-    renderCard: renderCard,
-    createCardElement: createCardElement
+    render: renderCard,
+    createElement: createCardElement,
+    deleteAll: deleteCards
   };
 })();

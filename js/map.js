@@ -38,9 +38,9 @@
     mapPinMain.removeEventListener('mousedown', onPinMainMousedown);
     mapPinMain.removeEventListener('keydown', onPinMainKeydown);
     // отрисовывает метки на карте
-    window.pins.renderPins(window.data.adverts);
+    window.pin.render(window.data.adverts);
     // отрисовывает шаблон карточки объявления
-    window.card.renderCard();
+    window.card.render();
     // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
     window.form.setAddressInput(window.dndPin.getPinMainCoordinates(true));
     // при активации страницы синхронизирует поле «Количество комнат» с полем «Количество мест»
@@ -99,7 +99,7 @@
     // функция-обработчик, вызывающая заполнение/показ карточки объявления, выделение активной метки
     var onPinsClick = function (i) {
       return function () {
-        window.card.createCardElement(window.data.adverts[i]);
+        window.card.createElement(window.data.adverts[i]);
         activatePin(pins[i + 1]);
         activeCard.classList.remove('hidden');
         closeCard();
@@ -109,7 +109,7 @@
     var onPinsEnter = function (i) {
       return function (evt) {
         if (evt.key === window.utils.keys.enter) {
-          window.card.createCardElement(window.data.adverts[i]);
+          window.card.createElement(window.data.adverts[i]);
           activatePin(pins[i + 1]);
           activeCard.classList.remove('hidden');
         }
@@ -123,7 +123,7 @@
     }
   };
 
-  // функция задаёт начальное состояние страницы
+  // функция задаёт неактивное состояние страницы
   var beginPage = function () {
     // добавляет элементам форм атрибут disabled
     window.utils.setAttributeCollection(adFieldsets, true);
@@ -135,5 +135,24 @@
     window.form.setAddressInput(window.dndPin.getPinMainCoordinates(false));
   };
 
+  // функция возвращает к начальному состоянию страницы
+  var returnBeginPage = function () {
+    // добавляет карте и форме неактивное состояние
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    // удаляет метки и карточки похожих объявлений
+    window.pin.deleteAll();
+    window.card.deleteAll();
+    // возвращает главную метку в исходное положение
+    window.dndPin.returnStartPosition();
+    // сбрасывает форму
+    window.form.reset();
+    beginPage();
+  };
+
   beginPage();
+
+  window.map = {
+    returnBeginPage: returnBeginPage
+  };
 })();

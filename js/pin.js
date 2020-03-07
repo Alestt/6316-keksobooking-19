@@ -26,7 +26,16 @@
     pinsList.appendChild(fragment);
   };
 
-  window.pins = {
-    renderPins: renderPins
+  // удаляет метки похожих объявлений
+  var deletePins = function () {
+    var pins = pinsList.querySelectorAll('.map__pin');
+    for (var i = 1; i < pins.length; i++) {
+      pins[i].remove();
+    }
+  };
+
+  window.pin = {
+    render: renderPins,
+    deleteAll: deletePins
   };
 })();
