@@ -2,11 +2,13 @@
 
 (function () {
   var StatusCode = {OK: 200};
+  var UrlTypes = {
+    LOAD: 'https://js.dump.academy/keksobooking/data',
+    UPLOAD: 'https://js.dump.academy/keksobooking'
+  };
   var TIMEOUT_IN_MS = 10000;
 
-  var load = function (onLoad, onError) {
-    var URL = 'https://js.dump.academy/keksobooking/data';
-
+  var createXHR = function (data, method, url, onLoad, onError) {
     // создаёт новый объект XMLHttpRequest
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -34,14 +36,25 @@
     xhr.timeout = TIMEOUT_IN_MS;
 
     // открывает запрос
-    xhr.open('GET', URL);
+    xhr.open(method, url);
 
     // отправляет данные
-    xhr.send();
+    xhr.send(data);
+  };
+
+  // получение данных с сервера
+  var load = function (onLoad, onError) {
+    createXHR('', 'GET', UrlTypes.LOAD, onLoad, onError);
+  };
+
+  // отправляет данные формы на сервер
+  var upload = function (data, onLoad, onError) {
+    createXHR(data, 'POST', UrlTypes.UPLOAD, onLoad, onError);
   };
 
   // создаёт объект в глобальной ОВ
   window.backend = {
-    load: load
+    load: load,
+    upload: upload
   };
 })();
