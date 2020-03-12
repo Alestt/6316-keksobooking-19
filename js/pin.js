@@ -18,10 +18,10 @@
   };
 
   // функция отрисовывает сгенерированные метки на карте
-  var renderPins = function (array) {
+  var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.adverts.length; i++) {
-      fragment.appendChild(createPinElement(array[i]));
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(createPinElement(data[i]));
     }
     pinsList.appendChild(fragment);
   };

@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var AMOUNT_ADVERTS = 5;
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
   var LEFT_BUTTON = 0;
@@ -32,6 +33,7 @@
     getRandomElementArray: getRandomElementArray,
     getRandomLengthArray: getRandomLengthArray,
     setAttributeCollection: setAttributeCollection,
+    amountAdverts: AMOUNT_ADVERTS,
     keys: {
       enter: ENTER_KEY,
       esc: ESC_KEY,
