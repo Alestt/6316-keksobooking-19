@@ -37,8 +37,8 @@
     // удаляет обработчик события mousedown/keydown
     mapPinMain.removeEventListener('mousedown', onPinMainMousedown);
     mapPinMain.removeEventListener('keydown', onPinMainKeydown);
-    // отрисовывает метки на карте
-    window.pin.render(window.data.adverts);
+    // фильтрует поле "Тип жилья"
+    window.filter.selectType();
     // отрисовывает шаблон карточки объявления
     window.card.render();
     // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
@@ -54,7 +54,10 @@
     // при изменении полей «Время заезда и выезда» синхронизирует время заезда и выезда
     timeIn.addEventListener('change', window.form.onTimeInChange);
     timeOut.addEventListener('change', window.form.onTimeOutChange);
+    activateCard();
+  };
 
+  var activateCard = function () {
     var pins = pinsList.querySelectorAll('.map__pin');
     var activeCard = map.querySelector('.map__card');
     var pinActive;
@@ -99,7 +102,7 @@
     // функция-обработчик, вызывающая заполнение/показ карточки объявления, выделение активной метки
     var onPinsClick = function (i) {
       return function () {
-        window.card.createElement(window.data.adverts[i]);
+        window.card.createElement(window.filter.array[i]);
         activatePin(pins[i + 1]);
         activeCard.classList.remove('hidden');
         closeCard();
@@ -109,7 +112,7 @@
     var onPinsEnter = function (i) {
       return function (evt) {
         if (evt.key === window.utils.keys.enter) {
-          window.card.createElement(window.data.adverts[i]);
+          window.card.createElement(window.filter.array[i]);
           activatePin(pins[i + 1]);
           activeCard.classList.remove('hidden');
         }
@@ -117,7 +120,7 @@
     };
 
     // добавляет обработчики событий меткам, пропуская главную метку
-    for (var j = 0; j < window.data.adverts.length; j++) {
+    for (var j = 0; j < window.filter.array.slice(0, window.utils.amountAdverts).length; j++) {
       pins[j + 1].addEventListener('click', onPinsClick(j));
       pins[j + 1].addEventListener('click', onPinsEnter(j));
     }
@@ -147,12 +150,14 @@
     window.dndPin.returnStartPosition();
     // сбрасывает форму
     window.form.reset();
+    window.filter.reset();
     beginPage();
   };
 
   beginPage();
 
   window.map = {
-    returnBeginPage: returnBeginPage
+    returnBeginPage: returnBeginPage,
+    activateCard: activateCard
   };
 })();
