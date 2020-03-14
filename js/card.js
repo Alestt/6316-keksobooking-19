@@ -78,9 +78,15 @@
     }
   };
 
+  var hideCard = function () {
+    var activeCard = map.querySelector('.map__card');
+    activeCard.classList.add('hidden');
+  };
+
   window.card = {
     render: renderCard,
     createElement: createCardElement,
-    deleteAll: deleteCards
+    deleteAll: deleteCards,
+    hide: hideCard
   };
 })();

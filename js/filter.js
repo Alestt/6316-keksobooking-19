@@ -74,6 +74,7 @@
   var onFormElementChange = function () {
     window.utils.debounce(function () {
       filterFormFields();
+      window.card.hide();
       window.pin.deleteAll();
       window.pin.render(filteredArray.slice(0, window.utils.amountAdverts));
       window.map.activateCard();
