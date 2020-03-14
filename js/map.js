@@ -37,8 +37,8 @@
     // удаляет обработчик события mousedown/keydown
     mapPinMain.removeEventListener('mousedown', onPinMainMousedown);
     mapPinMain.removeEventListener('keydown', onPinMainKeydown);
-    // фильтрует поле "Тип жилья"
-    window.filter.selectType();
+    // добавляет фильтрацию
+    window.filter.form();
     // отрисовывает шаблон карточки объявления
     window.card.render();
     // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
@@ -54,7 +54,6 @@
     // при изменении полей «Время заезда и выезда» синхронизирует время заезда и выезда
     timeIn.addEventListener('change', window.form.onTimeInChange);
     timeOut.addEventListener('change', window.form.onTimeOutChange);
-    activateCard();
   };
 
   var activateCard = function () {
@@ -76,6 +75,7 @@
       }
     };
 
+    // закрывает активную карточку похожего объявления
     var closeCard = function () {
       var popupClose = activeCard.querySelector('.popup__close');
 
@@ -102,9 +102,9 @@
     // функция-обработчик, вызывающая заполнение/показ карточки объявления, выделение активной метки
     var onPinsClick = function (i) {
       return function () {
+        activeCard.classList.remove('hidden');
         window.card.createElement(window.filter.array[i]);
         activatePin(pins[i + 1]);
-        activeCard.classList.remove('hidden');
         closeCard();
       };
     };
@@ -112,9 +112,9 @@
     var onPinsEnter = function (i) {
       return function (evt) {
         if (evt.key === window.utils.keys.enter) {
+          activeCard.classList.remove('hidden');
           window.card.createElement(window.filter.array[i]);
           activatePin(pins[i + 1]);
-          activeCard.classList.remove('hidden');
         }
       };
     };
@@ -150,6 +150,7 @@
     window.dndPin.returnStartPosition();
     // сбрасывает форму
     window.form.reset();
+    // сбрасывает фильтры
     window.filter.reset();
     beginPage();
   };
