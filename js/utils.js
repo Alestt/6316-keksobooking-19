@@ -5,6 +5,16 @@
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
   var LEFT_BUTTON = 0;
+  var DEBOUNCE_INTERVAL = 500;
+
+  // устраняет 'дребезг' при фильтрации объявлений
+  var debounce = function (cb) {
+    var lastTimeout;
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
 
   // функция возвращает случайное целое число от min(вкл) до max(вкл)
   var getRandomInteger = function (min, max) {
@@ -29,6 +39,7 @@
   };
 
   window.utils = {
+    debounce: debounce,
     getRandomInteger: getRandomInteger,
     getRandomElementArray: getRandomElementArray,
     getRandomLengthArray: getRandomLengthArray,
