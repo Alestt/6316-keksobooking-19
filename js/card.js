@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-  var offerPhotos = {class: 'popup__photo', width: 45, height: 40, alt: 'Фотография жилья'};
-  var offerTypes = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
-
+  var OfferPhotos = {class: 'popup__photo', width: 45, height: 40, alt: 'Фотография жилья'};
+  var OfferTypes = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
   var map = document.querySelector('.map');
   var templateCard = document.querySelector('#card');
   var mapCardTemplate = templateCard.content.querySelector('.map__card');
@@ -21,10 +20,10 @@
   var makePhotoElement = function (path) {
     var newPhotoElement = document.createElement('img');
     newPhotoElement.src = path;
-    newPhotoElement.classList.add(offerPhotos.class);
-    newPhotoElement.style.width = offerPhotos.width + 'px';
-    newPhotoElement.style.height = offerPhotos.height + 'px';
-    newPhotoElement.alt = offerPhotos.alt;
+    newPhotoElement.classList.add(OfferPhotos.class);
+    newPhotoElement.style.width = OfferPhotos.width + 'px';
+    newPhotoElement.style.height = OfferPhotos.height + 'px';
+    newPhotoElement.alt = OfferPhotos.alt;
     return newPhotoElement;
   };
 
@@ -38,22 +37,21 @@
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = offerTypes[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = OfferTypes[card.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
-    for (var i = 0; i < featureItems.length; i++) {
-      featureItems[i].style.display = 'none';
-    }
+    featureItems.forEach(function (featureItem) {
+      featureItem.style.display = 'none';
+    });
     card.offer.features.forEach(function (item) {
       featureParent.appendChild(makeFeatureElement(item));
     });
-
-    for (var j = 0; j < photoItems.length; j++) {
-      photoItems[j].style.display = 'none';
-    }
+    photoItems.forEach(function (photoItem) {
+      photoItem.style.display = 'none';
+    });
     card.offer.photos.forEach(function (item) {
       photoParent.appendChild(makePhotoElement(item));
     });
@@ -73,9 +71,9 @@
   // удаляет карточки похожих объявлений
   var deleteCards = function () {
     var cards = map.querySelectorAll('.map__card');
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].remove();
-    }
+    cards.forEach(function (item) {
+      item.remove();
+    });
   };
 
   var hideCard = function () {

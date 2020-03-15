@@ -1,20 +1,6 @@
 'use strict';
 (function () {
-  var priceRange = {
-    low: {
-      MIN: 0,
-      MAX: 9999
-    },
-    middle: {
-      MIN: 10000,
-      MAX: 50000
-    },
-    high: {
-      MIN: 50000,
-      MAX: Infinity
-    }
-  };
-
+  var PriceRange = {low: {MIN: 0, MAX: 9999}, middle: {MIN: 10000, MAX: 50000}, high: {MIN: 50000, MAX: Infinity}};
   var map = document.querySelector('.map');
   var filter = map.querySelector('.map__filters');
   var filterType = filter.querySelector('#housing-type');
@@ -36,7 +22,7 @@
 
   // фильтрует цену на жилье
   var selectFilterPrice = function (item) {
-    var priceValue = priceRange[filterPrice.value];
+    var priceValue = PriceRange[filterPrice.value];
     return priceValue ? item.offer.price >= priceValue.MIN && item.offer.price <= priceValue.MAX : true;
   };
 
@@ -53,27 +39,24 @@
   // фильтрует перечень удобств
   var selectFilterFeatures = function (item) {
     var checkedElement = filterFeatures.querySelectorAll('input:checked');
-
     return Array.from(checkedElement).every(function (element) {
       return item.offer.features.includes(element.value);
     });
   };
 
   // фильтрует поля формы
-  var filterFormFields = function () {
+  var filteredFormFields = function () {
     filteredArray = window.data.adverts;
-    filteredArray = filteredArray.filter(selectFilterType);
-    filteredArray = filteredArray.filter(selectFilterPrice);
-    filteredArray = filteredArray.filter(selectFilterRooms);
-    filteredArray = filteredArray.filter(selectFilterGuests);
-    filteredArray = filteredArray.filter(selectFilterFeatures);
+    filteredArray = filteredArray.filter(function (item) {
+      return selectFilterType(item) && selectFilterPrice(item) && selectFilterRooms(item) && selectFilterGuests(item) && selectFilterFeatures(item);
+    });
     window.filter.array = filteredArray;
   };
 
   // функция-обработчик, вызывающая работу фильтрации полей формы
   var onFormElementChange = function () {
     window.utils.debounce(function () {
-      filterFormFields();
+      filteredFormFields();
       window.card.hide();
       window.pin.deleteAll();
       window.pin.render(filteredArray.slice(0, window.utils.amountAdverts));
@@ -85,14 +68,7 @@
 
   // возвращает фильтр в исходное состояние
   var resetFilters = function () {
-    filterType.value = 'any';
-    filterPrice.value = 'any';
-    filterRooms.value = 'any';
-    filterGuests.value = 'any';
-    var features = filterFeatures.querySelectorAll('input');
-    features.forEach(function (it) {
-      it.checked = false;
-    });
+    filter.reset();
   };
 
   window.filter = {

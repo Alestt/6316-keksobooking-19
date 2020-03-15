@@ -42,7 +42,7 @@
     // отрисовывает шаблон карточки объявления
     window.card.render();
     // записывает координаты главной метки в поле ввода адреса в активном состоянии страницы
-    window.form.setAddressInput(window.dndPin.getPinMainCoordinates(true));
+    window.form.setAddressInput(window.dndPin.getMainCoordinates(true));
     // при активации страницы синхронизирует поле «Количество комнат» с полем «Количество мест»
     window.form.getAmountGuests();
     // при активации страницы синхронизирует поле «Тип жилья» с полем «Цена за ночь, руб.»
@@ -135,7 +135,7 @@
     mapPinMain.addEventListener('mousedown', onPinMainMousedown);
     mapPinMain.addEventListener('keydown', onPinMainKeydown);
     // записывает координаты главной метки в поле ввода адреса в неактивном состоянии страницы
-    window.form.setAddressInput(window.dndPin.getPinMainCoordinates(false));
+    window.form.setAddressInput(window.dndPin.getMainCoordinates(false));
   };
 
   // функция возвращает к начальному состоянию страницы

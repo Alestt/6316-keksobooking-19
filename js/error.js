@@ -4,7 +4,7 @@
   var showMessage = function () {
     var templateError = document.querySelector('#error');
     var messageError = templateError.content.querySelector('.error');
-    var messageErrorActive = messageError.cloneNode(1);
+    var messageErrorActive = messageError.cloneNode(true);
     var closeButton = messageErrorActive.querySelector('.error__button');
     var main = document.querySelector('main');
 
