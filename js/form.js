@@ -59,7 +59,6 @@
       option.removeAttribute('disabled');
       option.setAttribute('selected', 'selected');
     });
-    // showHelpAmountGuests();
   };
 
   // функция-обработчик, вызывающая функцию синхронизации поля «Количество комнат» с полем «Количество мест»

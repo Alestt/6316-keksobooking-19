@@ -17,7 +17,6 @@
       document.removeEventListener('click', onDocumentClick);
     };
 
-    // скрывает успешное сообщение при нажатии на esc
     var onDocumentKeydown = function (evt) {
       if (evt.key === window.utils.keys.esc) {
         messageErrorActive.classList.add('hidden');
@@ -27,7 +26,6 @@
       }
     };
 
-    // скрывает успешное сообщение по клику на произвольную область экрана
     var onDocumentClick = function () {
       messageErrorActive.classList.add('hidden');
       closeButton.removeEventListener('click', onCloseButtonClick);

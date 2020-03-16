@@ -7,7 +7,6 @@
   var LEFT_BUTTON = 0;
   var DEBOUNCE_INTERVAL = 500;
 
-  // устраняет 'дребезг' при фильтрации объявлений
   var debounce = function (cb) {
     var lastTimeout;
     if (lastTimeout) {
@@ -16,22 +15,18 @@
     lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
   };
 
-  // функция возвращает случайное целое число от min(вкл) до max(вкл)
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  // функция возвращает случайный элемент массива
   var getRandomElementArray = function (array) {
     return array[getRandomInteger(0, array.length - 1)];
   };
 
-  // функция возвращает случайную длину массива
   var getRandomLengthArray = function (array) {
     return array.slice(getRandomInteger(0, array.length - 1));
   };
 
-  // управляет атрибутом disabled элементов коллекции
   var setAttributeCollection = function (collection, active) {
     for (var i = 0; i < collection.length; i++) {
       collection[i].disabled = active;

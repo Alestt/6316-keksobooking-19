@@ -6,17 +6,14 @@
   var map = document.querySelector('.map');
   var templateCard = document.querySelector('#card');
   var mapCardTemplate = templateCard.content.querySelector('.map__card');
-  // блок перед которым надо вставить карточку объявления
   var filtersContainer = map.querySelector('.map__filters-container');
 
-  // функция создает новое удобство
   var makeFeatureElement = function (modifier) {
     var newFeatureElement = document.createElement('li');
     newFeatureElement.classList.add('popup__feature', 'popup__feature--' + modifier);
     return newFeatureElement;
   };
 
-  // функция создает новое фото
   var makePhotoElement = function (path) {
     var newPhotoElement = document.createElement('img');
     newPhotoElement.src = path;
@@ -27,7 +24,6 @@
     return newPhotoElement;
   };
 
-  // 2. функция наполняет карточки объявлений нужной инф-ей
   var createCardElement = function (card) {
     var cardElement = map.querySelector('.map__card');
     var featureParent = cardElement.querySelector('.popup__features');
@@ -42,7 +38,6 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
-
     featureItems.forEach(function (featureItem) {
       featureItem.style.display = 'none';
     });
@@ -55,11 +50,9 @@
     card.offer.photos.forEach(function (item) {
       photoParent.appendChild(makePhotoElement(item));
     });
-
     return cardElement;
   };
 
-  // функция отрисовывает шаблон карточки объявлений
   var renderCard = function () {
     var cardCloned = mapCardTemplate.cloneNode(true);
     cardCloned.classList.add('hidden');
@@ -68,7 +61,6 @@
     map.insertBefore(fragment, filtersContainer);
   };
 
-  // удаляет карточки похожих объявлений
   var deleteCards = function () {
     var cards = map.querySelectorAll('.map__card');
     cards.forEach(function (item) {

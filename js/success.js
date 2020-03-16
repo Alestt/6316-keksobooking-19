@@ -8,7 +8,6 @@
 
     document.body.appendChild(messageSuccessActive);
 
-    // скрывает успешное сообщение при нажатии на esc
     var onDocumentKeydown = function (evt) {
       if (evt.key === window.utils.keys.esc) {
         messageSuccessActive.classList.add('hidden');
@@ -17,7 +16,6 @@
       }
     };
 
-    // скрывает успешное сообщение по клику на произвольную область экрана
     var onDocumentClick = function () {
       messageSuccessActive.classList.add('hidden');
       document.removeEventListener('keydown', onDocumentKeydown);

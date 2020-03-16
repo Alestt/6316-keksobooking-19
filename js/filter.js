@@ -10,33 +10,27 @@
   var filterFeatures = filter.querySelector('#housing-features');
   var filteredArray = [];
 
-  // фильтрует элемент формы
   var selectFilterElement = function (element, rate, item) {
     return element.value === 'any' ? true : element.value === item[rate].toString();
   };
 
-  // фильтрует тип жилья
   var selectFilterType = function (item) {
     return selectFilterElement(filterType, 'type', item.offer);
   };
 
-  // фильтрует цену на жилье
   var selectFilterPrice = function (item) {
     var priceValue = PriceRange[filterPrice.value];
     return priceValue ? item.offer.price >= priceValue.MIN && item.offer.price <= priceValue.MAX : true;
   };
 
-  // фильтрует число комнат
   var selectFilterRooms = function (item) {
     return selectFilterElement(filterRooms, 'rooms', item.offer);
   };
 
-  // фильтрует число гостей
   var selectFilterGuests = function (item) {
     return selectFilterElement(filterGuests, 'guests', item.offer);
   };
 
-  // фильтрует перечень удобств
   var selectFilterFeatures = function (item) {
     var checkedElement = filterFeatures.querySelectorAll('input:checked');
     return Array.from(checkedElement).every(function (element) {
@@ -44,7 +38,6 @@
     });
   };
 
-  // фильтрует поля формы
   var filteredFormFields = function () {
     filteredArray = window.data.adverts;
     filteredArray = filteredArray.filter(function (item) {
@@ -53,7 +46,6 @@
     window.filter.array = filteredArray;
   };
 
-  // функция-обработчик, вызывающая работу фильтрации полей формы
   var onFormElementChange = function () {
     window.utils.debounce(function () {
       filteredFormFields();
@@ -66,7 +58,6 @@
 
   filter.addEventListener('change', onFormElementChange);
 
-  // возвращает фильтр в исходное состояние
   var resetFilters = function () {
     filter.reset();
   };
