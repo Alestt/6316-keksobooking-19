@@ -4,7 +4,7 @@
   var showMessage = function () {
     var templateSuccess = document.querySelector('#success');
     var messageSuccess = templateSuccess.content.querySelector('.success');
-    var messageSuccessActive = messageSuccess.cloneNode(1);
+    var messageSuccessActive = messageSuccess.cloneNode(true);
 
     document.body.appendChild(messageSuccessActive);
 

@@ -20,18 +20,18 @@
   // функция отрисовывает сгенерированные метки на карте
   var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(createPinElement(data[i]));
-    }
+    data.forEach(function (item) {
+      fragment.appendChild(createPinElement(item));
+    });
     pinsList.appendChild(fragment);
   };
 
   // удаляет метки похожих объявлений
   var deletePins = function () {
-    var pins = pinsList.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].remove();
-    }
+    var pins = pinsList.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (item) {
+      item.remove();
+    });
   };
 
   window.pin = {

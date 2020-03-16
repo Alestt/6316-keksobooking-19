@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mainPinData = {
+  var MainPinData = {
     sizes: {
       WIDTH: 65,
       HEIGHT: 65,
@@ -32,13 +32,13 @@
   // определяет координаты главной метки
   var getPinMainCoordinates = function (active) {
     var pinMainCoordinates = {
-      x: Math.round(mapPinMain.offsetLeft + mainPinData.sizes.WIDTH / 2),
-      y: Math.round(mapPinMain.offsetTop + mainPinData.sizes.HEIGHT / 2)
+      x: Math.round(mapPinMain.offsetLeft + MainPinData.sizes.WIDTH / 2),
+      y: Math.round(mapPinMain.offsetTop + MainPinData.sizes.HEIGHT / 2)
     };
     if (active === true) {
       pinMainCoordinates = {
-        x: Math.round(mapPinMain.offsetLeft + mainPinData.sizes.WIDTH / 2),
-        y: Math.round(mapPinMain.offsetTop + mainPinData.sizes.HEIGHT_AND_TAIL)
+        x: Math.round(mapPinMain.offsetLeft + MainPinData.sizes.WIDTH / 2),
+        y: Math.round(mapPinMain.offsetTop + MainPinData.sizes.HEIGHT_AND_TAIL)
       };
     }
     return pinMainCoordinates;
@@ -79,13 +79,13 @@
       // координаты при минимальных ограничениях размещения метки
       var minLimitCoordinates = {
         x: -mapPinMain.clientWidth / 2,
-        y: mainPinData.verticalRange.Y_MIN - mainPinData.sizes.HEIGHT_AND_TAIL
+        y: MainPinData.verticalRange.Y_MIN - MainPinData.sizes.HEIGHT_AND_TAIL
       };
 
       // координаты при максимальных ограничениях размещения метки
       var maxLimitCoordinates = {
         x: map.clientWidth - mapPinMain.clientWidth / 2,
-        y: mainPinData.verticalRange.Y_MAX - mainPinData.sizes.HEIGHT_AND_TAIL
+        y: MainPinData.verticalRange.Y_MAX - MainPinData.sizes.HEIGHT_AND_TAIL
       };
 
       // создаёт условия по размещению метки по горизонтали
@@ -117,7 +117,7 @@
   });
 
   window.dndPin = {
-    getPinMainCoordinates: getPinMainCoordinates,
+    getMainCoordinates: getPinMainCoordinates,
     returnStartPosition: returnStartPositionPinMain
   };
 })();

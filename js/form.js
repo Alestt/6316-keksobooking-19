@@ -1,21 +1,19 @@
 'use strict';
 
 (function () {
-  var ROOMS_CAPACITY = {1: [1], 2: [1, 2], 3: [1, 2, 3], 100: [0]};
-
+  var RoomsCapacity = {1: [1], 2: [1, 2], 3: [1, 2, 3], 100: [0]};
+  var TypeHouseToMinPrice = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
+  var AmountGuests = {one: '1', two: '2', three: '3', zero: '0'};
+  var AmountRooms = {one: '1', two: '2', three: '3', hundred: '100'};
   var adForm = document.querySelector('.ad-form');
   var addressInput = adForm.querySelector('#address');
   var capacity = adForm.querySelector('#capacity');
   var capacityOptions = capacity.querySelectorAll('option');
   var roomNumber = adForm.querySelector('#room_number');
   var typeHouse = adForm.querySelector('#type');
-  var typeHouseToMinPrice = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
   var minPrice = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-  var title = adForm.querySelector('#title');
-  var description = adForm.querySelector('#description');
-  var features = adForm.querySelectorAll('.feature__checkbox');
   var resetButton = adForm.querySelector('.ad-form__reset');
 
   // записывает координаты главной метки в поле ввода адреса
@@ -24,26 +22,56 @@
     addressInput.setAttribute('readonly', 'readonly');
   };
 
+  // показывает подсказку при неправильно выбранном количестве гостей
+  var showHelpAmountGuests = function () {
+    capacity.setCustomValidity('');
+    switch (roomNumber.value) {
+      case AmountRooms.one:
+        if (capacity.value !== AmountGuests.one) {
+          capacity.setCustomValidity('Только для 1 гостя');
+        }
+        break;
+      case AmountRooms.two:
+        if (capacity.value !== AmountGuests.one && capacity.value !== AmountGuests.two) {
+          capacity.setCustomValidity('Только для 1 или 2 гостей');
+        }
+        break;
+      case AmountRooms.three:
+        if (capacity.value !== AmountGuests.one && capacity.value !== AmountGuests.two && capacity.value !== AmountGuests.three) {
+          capacity.setCustomValidity('Только для 1, 2 или 3 гостей');
+        }
+        break;
+      case AmountRooms.hundred:
+        if (capacity.value !== AmountGuests.zero) {
+          capacity.setCustomValidity('Не для гостей');
+        }
+        break;
+    }
+    capacity.reportValidity();
+  };
+
   // синхронизирует поле «Количество комнат» с полем «Количество мест»
   var getAmountGuests = function () {
     window.utils.setAttributeCollection(capacityOptions, true);
-    var selectedOptions = ROOMS_CAPACITY[roomNumber.value];
-    for (var i = 0; i < selectedOptions.length; i++) {
-      var option = capacity.querySelector('option[value="' + selectedOptions[i] + '"]');
+    var selectedOptions = RoomsCapacity[roomNumber.value];
+    selectedOptions.forEach(function (it) {
+      var option = capacity.querySelector('option[value="' + it + '"]');
       option.removeAttribute('disabled');
       option.setAttribute('selected', 'selected');
-    }
+    });
+    // showHelpAmountGuests();
   };
 
   // функция-обработчик, вызывающая функцию синхронизации поля «Количество комнат» с полем «Количество мест»
   var onInputRoomChange = function () {
     getAmountGuests();
+    showHelpAmountGuests();
   };
 
   // синхронизирует поле «Тип жилья» с полем «Цена за ночь, руб.»
   var getMinPrice = function () {
-    minPrice.min = typeHouseToMinPrice[typeHouse.value];
-    minPrice.placeholder = typeHouseToMinPrice[typeHouse.value];
+    minPrice.min = TypeHouseToMinPrice[typeHouse.value];
+    minPrice.placeholder = TypeHouseToMinPrice[typeHouse.value];
   };
 
   // функция-обработчик, вызывающая функцию синхронизации поля «Тип жилья» с полем «Цена за ночь, руб.»
@@ -70,18 +98,7 @@
 
   // сбрасывает форму
   var resetForm = function () {
-    title.value = '';
-    typeHouse.value = 'flat';
-    minPrice.value = '';
-    minPrice.placeholder = '5000';
-    timeIn.value = '12:00';
-    timeOut.value = '12:00';
-    roomNumber.value = '1';
-    capacity.value = '3';
-    description.value = '';
-    for (var i = 0; i < features.length; i++) {
-      features[i].checked = false;
-    }
+    adForm.reset();
   };
 
   // возвращает страницу в неактивное состояние и показывает успешное сообщение
